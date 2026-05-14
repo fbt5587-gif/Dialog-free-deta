@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 Month Free Data Reward Campaign</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --accent-red: #e60000;
+            --tech-gradient: linear-gradient(135deg, #003366 0%, #0066cc 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #001a33;
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Particles Background */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+        }
+
+        .btn-glow {
+            background: linear-gradient(to right, #e60000, #ff4d4d);
+            box-shadow: 0 0 20px rgba(230, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 35px rgba(230, 0, 0, 0.6);
+            transform: scale(1.02);
+        }
+
+        .reward-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .reward-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #e60000;
+        }
+
+        /* Loading Overlay */
+        #loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 26, 51, 0.95);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top: 5px solid #e60000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Live Notification */
+        #live-notif {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-150%);
+            z-index: 1000;
+            transition: transform 0.5s ease;
+        }
+
+        #live-notif.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #00ff00, #00cc00);
+            transition: width 0.5s ease;
+        }
+
+        .hidden { display: none; }
+
+        /* Banner Image */
+        .hero-banner {
+            width: 100%;
+            height: 250px;
+            background: url('https://d216901qxcl0k5.cloudfront.net/s3fs-public/2021-06/choice.jpg') center/cover no-repeat;
+            border-radius: 0 0 40px 40px;
+            position: relative;
+        }
+
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent, #001a33);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <!-- Live Notification -->
+    <div id="live-notif" class="glass-card px-6 py-3 flex items-center gap-4 shadow-2xl border-red-600/30">
+        <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+            <i class="fas fa-gift text-xs"></i>
+        </div>
+        <p id="notif-text" class="text-sm font-bold"></p>
+    </div>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner"></div>
+
+    <div class="max-w-4xl mx-auto px-6 -mt-16 relative z-10 pb-20">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
+                🎉 1 Month Free Data Reward
+            </h1>
+            <p class="text-lg md:text-xl text-blue-200 font-medium">Special reward campaign for long-time mobile subscribers</p>
+            <p class="text-[10px] uppercase tracking-widest text-red-500 font-bold mt-2">Unofficial promotional campaign page</p>
+        </header>
+
+        <!-- Reward Tiers -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
+            <div class="glass-card p-4 text-center reward-card border-white/5">
+                <p class="text-[10px] font-bold text-blue-300 uppercase">New SIM</p>
+                <h3 class="text-2xl font-black text-white">5GB</h3>
+            </div>
+            <div class="glass-card p-4 text-center reward-card border-white/5">
+                <p class="text-[10px] font-bold text-blue-300 uppercase">1 Year</p>
+                <h3 class="text-2xl font-black text-white">8GB</h3>
+            </div>
+            <div class="glass-card p-4 text-center reward-card border-white/5">
+                <p class="text-[10px] font-bold text-blue-300 uppercase">2+ Years</p>
+                <h3 class="text-2xl font-black text-white">10GB</h3>
+            </div>
+            <div class="glass-card p-4 text-center reward-card border-white/5">
+                <p class="text-[10px] font-bold text-blue-300 uppercase">5-10 Years</p>
+                <h3 class="text-2xl font-black text-white">20GB</h3>
+            </div>
+            <div class="glass-card p-4 text-center reward-card border-white/5 col-span-2 md:col-span-1">
+                <p class="text-[10px] font-bold text-yellow-500 uppercase">10+ Years</p>
+                <h3 class="text-2xl font-black text-white">50GB</h3>
+            </div>
+        </div>
+
+        <!-- Main Content Card -->
+        <main class="w-full max-w-lg mx-auto">
+            
+            <!-- Step 1: Form -->
+            <div id="step-1" class="glass-card p-8">
+                <h2 class="text-2xl font-bold mb-6 text-center">Check Your Eligibility</h2>
+                <div class="mb-6">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-blue-200 mb-2">Mobile Number</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">+94</span>
+                        <input type="tel" id="phone-input" placeholder="07XXXXXXXX" maxlength="10" class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-14 pr-4 text-white font-bold text-lg focus:outline-none focus:border-red-600 transition">
+                    </div>
+                    <p id="error-msg" class="text-red-500 text-xs mt-2 hidden">Please enter a valid Sri Lankan mobile number (07XXXXXXXX)</p>
+                </div>
+
+                <button id="btn-continue" class="w-full py-4 rounded-2xl font-black text-lg btn-glow uppercase tracking-widest">
+                    Continue <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+
+                <div class="mt-8 flex justify-center gap-6 opacity-60">
+                    <img src="https://www.dialog.lk/dialog/media/images/home/trust-badges.png" alt="Trust" class="h-6 grayscale invert">
+                </div>
+            </div>
+
+            <!-- Step 2: Sharing -->
+            <div id="step-2" class="glass-card p-8 hidden">
+                <h2 class="text-2xl font-bold mb-2 text-center">Almost There!</h2>
+                <p class="text-sm text-blue-200 mb-8 text-center">Share this campaign with 10 friends or groups to unlock your reward access.</p>
+                
+                <div class="mb-8">
+                    <div class="flex justify-between text-xs font-bold uppercase mb-2">
+                        <span>Progress</span>
+                        <span id="progress-text">0 / 10 Shares</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <button id="share-wa" class="w-full py-4 rounded-2xl font-bold text-lg bg-[#25D366] flex items-center justify-center gap-3 shadow-lg shadow-green-600/20">
+                        <i class="fab fa-whatsapp text-2xl"></i> Share on WhatsApp
+                    </button>
+                    <button id="share-tg" class="w-full py-4 rounded-2xl font-bold text-lg bg-[#0088cc] flex items-center justify-center gap-3 shadow-lg shadow-blue-600/20">
+                        <i class="fab fa-telegram-plane text-2xl"></i> Share on Telegram
+                    </button>
+                    <button id="copy-link" class="w-full py-4 rounded-2xl font-bold text-sm bg-white/10 flex items-center justify-center gap-3">
+                        <i class="fas fa-link"></i> Copy Referral Link
+                    </button>
+                </div>
+
+                <!-- Final Button -->
+                <div id="final-step" class="mt-10 hidden animate-bounce">
+                    <button id="btn-claim" class="w-full py-5 rounded-2xl font-black text-xl btn-glow uppercase tracking-widest">
+                        🎁 Claim Free Data
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Viral Features -->
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass-card p-6 text-center">
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <p class="text-2xl font-black" id="visitor-count">1,245</p>
+                </div>
+                <p class="text-xs font-bold text-blue-300 uppercase">Live Users Online</p>
+            </div>
+            <div class="glass-card p-6 text-center">
+                <p class="text-2xl font-black mb-2">12,458</p>
+                <p class="text-xs font-bold text-blue-300 uppercase">Users Claimed Today</p>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <section class="mt-20">
+            <h3 class="text-2xl font-bold mb-8 text-center">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <div class="glass-card p-6">
+                    <h4 class="font-bold mb-2">Is this an official campaign?</h4>
+                    <p class="text-sm text-blue-200">This is a promotional campaign page for testing and demonstration purposes. Please refer to your service provider for official offers.</p>
+                </div>
+                <div class="glass-card p-6">
+                    <h4 class="font-bold mb-2">How do I receive the reward?</h4>
+                    <p class="text-sm text-blue-200">After completing the verification and sharing steps, click the claim button to proceed to the final step.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 text-center opacity-50 text-xs">
+            <p class="mb-4">© 2024 Telecom Reward Campaign. All Rights Reserved.</p>
+            <div class="flex justify-center gap-6">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner mb-6"></div>
+        <p class="text-xl font-bold tracking-widest animate-pulse uppercase">Checking Eligibility...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 50 },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.2 },
+                "size": { "value": 3 },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 2 }
+            }
+        });
+
+        // Form Logic
+        const btnContinue = document.getElementById('btn-continue');
+        const phoneInput = document.getElementById('phone-input');
+        const errorMsg = document.getElementById('error-msg');
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        btnContinue.addEventListener('click', () => {
+            const val = phoneInput.value;
+            if (/^07[0-9]{8}$/.test(val)) {
+                errorMsg.classList.add('hidden');
+                loadingOverlay.style.display = 'flex';
+                
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    step1.classList.add('hidden');
+                    step2.classList.remove('hidden');
+                }, 2500);
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        });
+
+        // Sharing Logic
+        let shares = 0;
+        const totalShares = 10;
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        const finalStep = document.getElementById('final-step');
+
+        const shareMsg = "🎁 *1 Month Free Data Reward!* 🎁\n\nI just qualified for the long-time subscriber reward! Get yours now before the campaign ends.\n\n👉 https://reward-campaign.com";
+
+        function updateProgress() {
+            shares++;
+            if (shares > totalShares) shares = totalShares;
+            const percent = (shares / totalShares) * 100;
+            progressFill.style.width = percent + '%';
+            progressText.innerText = `${shares} / ${totalShares} Shares`;
+
+            if (shares >= totalShares) {
+                finalStep.classList.remove('hidden');
+            }
+        }
+
+        document.getElementById('share-wa').addEventListener('click', () => {
+            window.location.href = `whatsapp://send?text=${encodeURIComponent(shareMsg)}`;
+            setTimeout(updateProgress, 2000);
+        });
+
+        document.getElementById('share-tg').addEventListener('click', () => {
+            window.open(`https://t.me/share/url?url=${encodeURIComponent('https://reward-campaign.com')}&text=${encodeURIComponent(shareMsg)}`, '_blank');
+            setTimeout(updateProgress, 2000);
+        });
+
+        document.getElementById('copy-link').addEventListener('click', () => {
+            navigator.clipboard.writeText('https://reward-campaign.com');
+            alert('Link copied to clipboard!');
+            updateProgress();
+        });
+
+        // Claim Redirect
+        document.getElementById('btn-claim').addEventListener('click', () => {
+            window.location.href = "https://omg10.com/4/10995190";
+        });
+
+        // Live Notifications
+        const names = ["Kamal", "Sunil", "Nimal", "Priyantha", "Dilshan", "Chathura", "Nuwan", "Saman"];
+        const cities = ["Colombo", "Kandy", "Galle", "Matara", "Jaffna", "Gampaha", "Kurunegala"];
+        const rewards = ["20GB", "50GB", "10GB", "8GB"];
+        const notif = document.getElementById('live-notif');
+        const notifText = document.getElementById('notif-text');
+
+        function showNotif() {
+            const name = names[Math.floor(Math.random() * names.length)];
+            const city = cities[Math.floor(Math.random() * cities.length)];
+            const reward = rewards[Math.floor(Math.random() * rewards.length)];
+            
+            notifText.innerText = `${name} from ${city} unlocked ${reward}`;
+            notif.classList.add('show');
+            
+            setTimeout(() => {
+                notif.classList.remove('show');
+            }, 3000);
+        }
+
+        setInterval(showNotif, 8000);
+        setTimeout(showNotif, 3000);
+
+        // Visitor Counter
+        let visitors = 1245;
+        setInterval(() => {
+            visitors += Math.floor(Math.random() * 5) - 2;
+            document.getElementById('visitor-count').innerText = visitors.toLocaleString();
+        }, 3000);
+    </script>
+</body>
+</html>
